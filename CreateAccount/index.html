@@ -18,91 +18,7 @@
     <meta name="next-head-count" content="12">
 
 
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-analytics.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-          apiKey: API_KEY,
-          authDomain: AUTH_DOMAIN,
-          projectId: "digiads-19775",
-          storageBucket: "digiads-19775.appspot.com",
-          messagingSenderId: "474350034688",
-          appId: "1:474350034688:web:defdb3ffdd14cfbc6c9de5",
-          measurementId: "G-JJ0RXDHTC1"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-
-        // Initialize Firebase Auth
-        const auth = getAuth(app);
-
-        // Function to handle user signup
-        const handleSignup = (email, password) => {
-          createUserWithEmailAndPassword(auth, email, password)
-            .then(userCredential => {
-              alert("Signup successful!");
-            })
-            .catch(error => {
-              alert("Signup error: " + error.message);
-            });
-        };
-
-        // Function to handle user login
-        const handleLogin = (email, password) => {
-          signInWithEmailAndPassword(auth, email, password)
-            .then(userCredential => {
-              alert("Login successful!");
-            })
-            .catch(error => {
-              alert("Login error: " + error.message);
-            });
-        };
-
-        // Function to handle Google Sign-In
-        const handleGoogleSignIn = () => {
-          const provider = new GoogleAuthProvider();
-          signInWithPopup(auth, provider)
-            .then(result => {
-              const user = result.user;
-              alert("Google Sign-In successful! Welcome, " + user.displayName);
-            })
-            .catch(error => {
-              alert("Google Sign-In error: " + error.message);
-            });
-        };
-
-        // Add event listeners for the forms in your HTML
-        const signupForm = document.querySelector('#signupForm');  // Replace with the correct form ID
-        if (signupForm) {
-          signupForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const email = signupForm.email.value;
-            const password = signupForm.password.value;
-            handleSignup(email, password);
-          });
-        }
-
-        const loginForm = document.querySelector('#loginForm');  // Replace with the correct form ID
-        if (loginForm) {
-          loginForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const email = loginForm.email.value;
-            const password = loginForm.password.value;
-            handleLogin(email, password);
-          });
-        }
-
-        const googleButton = document.querySelector('.sync-divider');
-        if (googleButton) {
-          googleButton.addEventListener('click', handleGoogleSignIn);
-        }
-      </script>
 
 
 
@@ -1724,7 +1640,7 @@
 
 
 
-                        <form data-hs-cf-bound="true" id="signupForm">
+                        <form id="signupForm">
                             <div class="z-10 md:flex justify-center flex-wrap space-y-0 md:space-y-0 md:space-x-0 tablet:w-full min-tablet:pr-16">
                                 <div class="md:max-w-screen-sm tablet:w-full">
                                     <div class="w-full px-10 py-10 space-y-4 overflow-auto bg-white border-0 dark:bg-dark-200 min-tablet:px-16 rounded-4xl min-tablet:max-h-100-36 tablet:rounded-b-none">
@@ -1737,7 +1653,7 @@
                                             <div class="relative z-0 inline-block text-display w-full">
                                                 <div class="mb-7 mt-6">
                                                     <div class="relative w-full">
-                                                        <input placeholder="First name" autocomplete="off" name="firstname" class="bg-transparent outline-none text-dark-default dark:text-white font-semibold w-full px-4 py-2 border-0 text-lg md:text-base border-b-2 focus:ring-0 dark:border-grey-default placeholder-transparent input-s" type="text" value="">
+                                                        <input placeholder="First name" autocomplete="off" name="firstname" class="bg-transparent outline-none text-dark-default dark:text-white font-semibold w-full px-4 py-2 border-0 text-lg md:text-base border-b-2 focus:ring-0 dark:border-grey-default placeholder-transparent input-s" type="text" required>
                                                         <label class="text-base md:text-sm text-body dark:text-dark-400 absolute animated origin-0 bottom-3.5 pointer-events-none left-3.5">First name</label>
                                                     </div>
                                                 </div>
@@ -1747,7 +1663,7 @@
                                             <div class="relative z-0 inline-block text-display w-full">
                                                 <div class="mb-7 mt-6">
                                                     <div class="relative w-full">
-                                                        <input placeholder="Last Name" autocomplete="off" name="lastname" class="bg-transparent outline-none text-dark-default dark:text-white font-semibold w-full px-4 py-2 border-0 text-lg md:text-base border-b-2 focus:ring-0 dark:border-grey-default placeholder-transparent input-s" type="text" value="">
+                                                        <input placeholder="Last Name" autocomplete="off" name="lastname" class="bg-transparent outline-none text-dark-default dark:text-white font-semibold w-full px-4 py-2 border-0 text-lg md:text-base border-b-2 focus:ring-0 dark:border-grey-default placeholder-transparent input-s" type="text" required>
                                                         <label class="text-base md:text-sm text-body dark:text-dark-400 absolute animated origin-0 bottom-3.5 pointer-events-none left-3.5">Last Name</label>
                                                     </div>
                                                 </div>
@@ -1759,7 +1675,7 @@
                                             <div class="relative z-0 inline-block text-display w-full">
                                                 <div class="mb-7 mt-6">
                                                     <div class="relative w-full text-danger-500">
-                                                        <input placeholder="Email" autocomplete="off" name="email" class="bg-transparent outline-none text-dark-default dark:text-white font-semibold w-full px-4 py-2 border-0 text-lg md:text-base border-b-2 focus:ring-0 dark:border-grey-default placeholder-transparent input-s" type="email" value="">
+                                                        <input placeholder="Email" autocomplete="off" name="email" class="bg-transparent outline-none text-dark-default dark:text-white font-semibold w-full px-4 py-2 border-0 text-lg md:text-base border-b-2 focus:ring-0 dark:border-grey-default placeholder-transparent input-s" type="email" required>
                                                         <label class="text-base md:text-sm text-body dark:text-dark-400 absolute animated origin-0 bottom-3.5 pointer-events-none left-3.5 text-danger-500">Email</label>
                                                     </div>
                                                 </div>
@@ -1771,7 +1687,7 @@
                                             <div class="relative z-0 inline-block text-display w-full">
                                                 <div class="mb-7 mt-6">
                                                     <div class="relative w-full">
-                                                        <input placeholder="Password" autocomplete="off" name="password" class="bg-transparent outline-none text-dark-default dark:text-white font-semibold w-full px-4 py-2 border-0 text-lg md:text-base border-b-2 focus:ring-0 dark:border-grey-default placeholder-transparent input-s pr-12" type="password" value="">
+                                                        <input placeholder="Password" autocomplete="off" name="password" class="bg-transparent outline-none text-dark-default dark:text-white font-semibold w-full px-4 py-2 border-0 text-lg md:text-base border-b-2 focus:ring-0 dark:border-grey-default placeholder-transparent input-s pr-12" type="password" required>
                                                         <label class="text-base md:text-sm text-body dark:text-dark-400 absolute animated origin-0 bottom-3.5 pointer-events-none left-3.5">Password</label>
                                                     </div>
                                                 </div>
@@ -1782,28 +1698,32 @@
                                         <div class="z-10 md:flex px-3 justify-start flex-wrap w-full">
                                             <div class="w-fit flex">
                                                 <label class="inline inline-flex items-center">
-                                                    <input class="cursor-pointer w-5 h-5 border border-grey-200 checked:bg-primary-500 hover:border-primary-500 text-primary-500 focus:ring-0" type="checkbox" name="primary" value="">
+                                                    <input class="cursor-pointer w-5 h-5 border border-grey-200 checked:bg-primary-500 hover:border-primary-500 text-primary-500 focus:ring-0" type="checkbox" name="primary" required>
                                                     <h6 class="text-sm font-medium ml-3 cursor-pointer text-dark dark:text-dark-400">I agree with the <a class="text-primary-500 font-bold cursor-pointer">Terms and Conditions</a></h6>
                                                 </label>
                                             </div>
                                         </div>
 
-                                        <!-- Submit Button (Remove disabled attribute) -->
+                                        <!-- Submit Button -->
                                         <div class="z-10 md:flex px-3 justify-start flex-wrap w-full">
                                             <div class="w-full mx-auto mt-7">
                                                 <button type="submit" class="flex items-center justify-center font-button font-bold w-full bg-primary-500 dark:border-primary-500 hover:shadow-primaryFullHover focus:shadow-primaryFullHover btn-base">Create my account</button>
                                             </div>
                                         </div>
 
+                                        <div id="messageContainer" style="margin-top: 20px; font-size: 18px; color: green; text-align: center; align-items: center;"></div>
+
+
+                                        <!-- Google Sign-Up Button -->
                                         <div class="z-10 md:flex px-3 justify-start flex-wrap w-full">
                                             <div class="relative mt-6 w-full flex items-center justify-center sync-divider">
                                                <div class="h-full w-fit z-10 dark:bg-dark-200 bg-white px-4 dark:text-dark-300">or sync with</div>
                                             </div>
-                                            <div data-cy="createAccount" class="w-full hover:shadow-secondaryFullHover focus:shadow-secondaryFullHover border border-dark-default dark:border-white relative rounded-3xl p-3 mx-auto mt-7 text-dark dark:text-white font-semibold text-center cursor-pointer">
+                                            <div id="googleSignUpButton" class="w-full hover:shadow-secondaryFullHover focus:shadow-secondaryFullHover border border-dark-default dark:border-white relative rounded-3xl p-3 mx-auto mt-7 text-dark dark:text-white font-semibold text-center cursor-pointer">
                                                <div class="absolute top-3 left-6 border-r border-dark-default dark:border-white dark:border-opacity-50 pr-4"><img class="h-6" src="/Login/images/googleaccount.svg"></div>
                                                Google Account
                                             </div>
-                                         </div>
+                                        </div>
 
                                     </div>
                                 </div>
@@ -1822,6 +1742,126 @@
         </div>
     </div>
 
+
+
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyAwRy3Tic9tk7RGMJq7Gd_E5eKcZOY4a2g",
+          authDomain: "digiads-19775.firebaseapp.com",
+          projectId: "digiads-19775",
+          storageBucket: "digiads-19775.appspot.com",
+          messagingSenderId: "474350034688",
+          appId: "1:474350034688:web:defdb3ffdd14cfbc6c9de5",
+          measurementId: "G-JJ0RXDHTC1"
+        };
+
+        // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Function to handle user signup
+    const handleSignup = (email, password) => {
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(userCredential => {
+                console.log("User signed up successfully:", userCredential.user);
+                showMessage("Signup successful!", "success");
+
+
+
+
+
+            })
+            .catch(error => {
+                console.error("Error during signup:", error);
+                showMessage("Signup error: " + error.message, "error");
+            });
+    };
+
+    // Function to handle user login
+    const handleLogin = (email, password) => {
+        signInWithEmailAndPassword(auth, email, password)
+            .then(userCredential => {
+                console.log("User logged in successfully:", userCredential.user);
+                showMessage("Login successful!", "success");
+
+
+            })
+            .catch(error => {
+                console.error("Error during login:", error);
+                showMessage("Login error: " + error.message, "error");
+            });
+    };
+
+    // Function to handle Google Sign-Up
+    const handleGoogleSignIn = () => {
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(auth, provider)
+            .then(result => {
+                const user = result.user;
+                if (result.additionalUserInfo.isNewUser) {
+                    console.log("New user signed up via Google:", user);
+                    showMessage("Google Sign-Up successful! Welcome, " + user.displayName, "success");
+                } else {
+                    console.log("Returning user signed in via Google:", user);
+                    showMessage("Welcome back, " + user.displayName, "success");
+                }
+            })
+            .catch(error => {
+                console.error("Error during Google Sign-In:", error);
+                showMessage("Google Sign-In error: " + error.message, "error");
+            });
+    };
+
+    // Function to display success/error messages
+    const showMessage = (message, type) => {
+        const messageContainer = document.getElementById("messageContainer");
+        if (type === "success") {
+            messageContainer.style.color = "green";
+        } else {
+            messageContainer.style.color = "red";
+        }
+        messageContainer.textContent = message;
+    };
+
+    // Add event listener for the signup form submission
+    const signupForm = document.querySelector('#signupForm');
+    if (signupForm) {
+        signupForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const email = signupForm.email.value;
+            const password = signupForm.password.value;
+            console.log("Signup form submitted with email:", email);
+            handleSignup(email, password);
+        });
+    }
+
+    // Add event listener for the login form (if you have a separate login form)
+    const loginForm = document.querySelector('#loginForm');  // Ensure this ID matches your login form ID
+    if (loginForm) {
+        loginForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const email = loginForm.email.value;
+            const password = loginForm.password.value;
+            console.log("Login form submitted with email:", email);
+            handleLogin(email, password);
+        });
+    }
+
+    // Add event listener for the Google Sign-Up button
+    const googleButton = document.querySelector('#googleSignUpButton'); // Ensure this selector matches your Google button
+    if (googleButton) {
+        googleButton.addEventListener('click', () => {
+            console.log("Google Sign-Up button clicked");
+            handleGoogleSignIn();
+        });
+    }
+      </script>
 
 </body>
 
