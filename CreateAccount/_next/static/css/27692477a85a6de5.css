@@ -816,7 +816,7 @@ a.mapboxgl-ctrl-logo.mapboxgl-compact {
 .slick-slide {
     display: none;
     float: left;
-    height: 100%;
+    /* height:; */
     min-height: 1px
 }
 
