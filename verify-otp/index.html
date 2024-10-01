@@ -51,11 +51,25 @@
     <div class="message" id="message"></div>
 
     <script>
+      // Function to get a cookie by name
+      function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(";");
+        for (let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) === " ") c = c.substring(1, c.length); // Trim leading space
+          if (c.indexOf(nameEQ) === 0)
+            return c.substring(nameEQ.length, c.length);
+        }
+        return null; // Not found
+      }
+
       document
         .getElementById("otp-form")
         .addEventListener("submit", async (event) => {
           event.preventDefault();
 
+          const token = getCookie("verify-token");
           const otp = document.getElementById("otp").value;
 
           try {
@@ -67,7 +81,7 @@
                 headers: {
                   "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ otp }),
+                body: JSON.stringify({ otp, token }),
               }
             );
 
@@ -76,6 +90,7 @@
             if (response.ok) {
               messageDiv.textContent = result.message;
               messageDiv.style.color = "green";
+              window.location.href = "/Login/index.html";
             } else {
               messageDiv.textContent = result.error;
               messageDiv.style.color = "red";
