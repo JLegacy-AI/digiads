@@ -2415,7 +2415,7 @@
 
             if (response.ok) {
               alert(result.message);
-              // Handle success (e.g., redirect to a verification page)
+              window.location.href = "/verify-otp/index.html";
             } else {
               // Handle error responses (e.g., user already exists, invalid input)
               alert(result.error || "An error occurred during registration.");

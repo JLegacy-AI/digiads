@@ -1090,14 +1090,37 @@
     <script type="module">
       // Function to handle user login with email/password
       const handleLogin = (email, password) => {
-        signInWithEmailAndPassword(email, password)
-          .then((userCredential) => {
-            console.log("User logged in successfully:", userCredential.user);
-            showMessage("Login successful!", "success");
-            window.location.href = "/user/user.html";
+        const loginUrl = "http://localhost:3000/api/auth/login";
+        fetch(loginUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.error) {
+              showMessage("Login error: " + data.error, "error");
+
+              // Check if the error message indicates the need for verification
+              if (
+                data.error.includes(
+                  "Your Account is not verified, OTP sent valid 10 mints"
+                )
+              ) {
+                console.log("Change to the verification page.", data.status);
+
+                window.location.href = "/verify-otp/index.html";
+              }
+            } else {
+              console.log("User logged in successfully:", data);
+              showMessage("Login successful!", "success");
+              window.location.href = "/user/user.html"; // Redirect on success
+            }
           })
           .catch((error) => {
-            console.error("Error during login:", error);
+            console.log("Error during login:", error);
             showMessage("Login error: " + error.message, "error");
           });
       };
