@@ -1088,6 +1088,23 @@
     ></script>
 
     <script type="module">
+      // Function to set a cookie
+      function setCookie(name, value, days, secure = true) {
+        let expires = "";
+        if (days) {
+          const date = new Date();
+          date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000); // Convert days to milliseconds
+          expires = "; expires=" + date.toUTCString();
+        }
+
+        // Construct the cookie string
+        const cookieString = `${name}=${value}${expires}; path=/; SameSite=None${
+          secure ? "; Secure" : ""
+        }`;
+
+        // Set the cookie
+        document.cookie = cookieString;
+      }
       // Function to handle user login with email/password
       const handleLogin = (email, password) => {
         const loginUrl = "http://localhost:3000/api/auth/login";
@@ -1116,6 +1133,8 @@
             } else {
               console.log("User logged in successfully:", data);
               showMessage("Login successful!", "success");
+              localStorage.setItem("user-id", data.user_id);
+              setCookie("user-token", data.user_id, 1, false);
               window.location.href = "/user/user.html"; // Redirect on success
             }
           })

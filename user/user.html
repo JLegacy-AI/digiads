@@ -1919,6 +1919,33 @@
   </head>
 
   <body class="custom-body">
+    <script>
+      var user;
+      const getUserData = () => {
+        const user_id = localStorage.getItem("user-id");
+
+        const userData = "http://localhost:3000/api/user";
+        fetch(userData, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ user_id: user_id }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            user = data;
+            console.log(user);
+
+            const username = document.getElementById("userName");
+            username.innerText = user.user.name;
+          })
+          .catch((error) => {
+            showMessage("User error: " + error.message, "error");
+          });
+      };
+      getUserData();
+    </script>
     <div class="sidebar" id="sidebar">
       <div id="hs-web-interactives-top-push-anchor" class="go3670563033"></div>
       <noscript
@@ -1929,6 +1956,7 @@
           style="display: none; visibility: hidden"
         ></iframe
       ></noscript>
+      <script></script>
       <div id="__next" data-reactroot="">
         <div class="Toastify"></div>
         <div class="mainLayout">
@@ -2481,8 +2509,7 @@
                     </div>
                     <div class="text-center max-lg:text-left">
                       <div class="font-bold text-black dark:text-white name">
-                        <span>Prenna</span
-                        ><span class="pl-2 inline">Lalwani</span>
+                        <span id="userName"></span>
                       </div>
                       <a
                         class="text-sm font-semibold underline text-primary-500"
@@ -3889,10 +3916,204 @@
                         <div
                           type="button"
                           class="flex items-center justify-center font-button font-bold w-fit bg-primary-500 dark:border-primary-500 hover:shadow-primaryFullHover focus:shadow-primaryFullHover whitespace-nowrap btn-base"
+                          id="create_campaign"
                         >
                           Create campaign
                         </div>
                       </div>
+                      <!-- Unique Modal Structure -->
+                      <div id="uniqueModal" class="unique-modal hidden">
+                        <div class="unique-modal-content">
+                          <span class="unique-close" id="closeUniqueModal"
+                            >&times;</span
+                          >
+                          <h2 class="modal-title">Create New Campaign</h2>
+                          <form
+                            id="uniqueCampaignForm"
+                            enctype="multipart/form-data"
+                          >
+                            <label for="uniqueCampaignName"
+                              >Campaign Name:</label
+                            >
+                            <input
+                              type="text"
+                              id="uniqueCampaignName"
+                              name="uniqueCampaignName"
+                              class="input-field"
+                              required
+                            />
+
+                            <label for="uniqueDescription">Description:</label>
+                            <textarea
+                              id="uniqueDescription"
+                              name="uniqueDescription"
+                              class="input-field"
+                              required
+                            ></textarea>
+
+                            <label for="uniqueVideoUpload">Upload Video:</label>
+                            <input
+                              type="file"
+                              id="uniqueVideoUpload"
+                              name="uniqueVideoUpload"
+                              accept="video/*"
+                              class="input-field"
+                              required
+                            />
+
+                            <button type="submit" class="submit-button">
+                              Create Campaign
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+
+                      <style>
+                        .unique-modal {
+                          display: flex;
+                          justify-content: center;
+                          align-items: center;
+                          position: fixed;
+                          z-index: 1000;
+                          left: 0;
+                          top: 0;
+                          width: 100%;
+                          height: 100%;
+                          background-color: rgba(
+                            0,
+                            0,
+                            0,
+                            0.7
+                          ); /* Darker semi-transparent background */
+                        }
+
+                        .unique-modal-content {
+                          background-color: #fefefe; /* Light background color */
+                          padding: 25px;
+                          border-radius: 10px;
+                          width: 450px; /* Slightly wider than before */
+                          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+                          transition: transform 0.3s ease; /* Smooth appearance */
+                          transform: scale(0.8); /* Start smaller */
+                        }
+
+                        .modal-title {
+                          margin-bottom: 15px; /* Space below the title */
+                          font-size: 1.5em; /* Larger title size */
+                          color: #333; /* Darker title color */
+                        }
+
+                        .input-field {
+                          width: 100%; /* Full width input fields */
+                          padding: 10px; /* Comfortable padding */
+                          margin-bottom: 15px; /* Space between fields */
+                          border: 1px solid #ccc; /* Light border */
+                          border-radius: 5px; /* Slightly rounded corners */
+                          font-size: 1em; /* Font size for inputs */
+                        }
+
+                        .submit-button {
+                          background-color: #4caf50; /* Green background */
+                          color: white; /* White text */
+                          padding: 10px 15px; /* Button padding */
+                          border: none; /* Remove default border */
+                          border-radius: 5px; /* Rounded corners for the button */
+                          cursor: pointer; /* Pointer cursor on hover */
+                          font-size: 1em; /* Consistent font size */
+                          transition: background-color 0.3s; /* Smooth background change */
+                        }
+
+                        .unique-close {
+                          color: #aaa; /* Close button color */
+                          font-size: 28px; /* Close button size */
+                          font-weight: bold; /* Make it bold */
+                          cursor: pointer; /* Pointer cursor */
+                        }
+
+                        .unique-close:hover,
+                        .unique-close:focus {
+                          color: #d9534f; /* Change color on hover */
+                        }
+
+                        .hidden {
+                          display: none; /* Hide modal by default */
+                        }
+
+                        /* Animation when modal appears */
+                        .unique-modal-content.show {
+                          transform: scale(1); /* Scale to original size */
+                        }
+                      </style>
+                      <script>
+                        document.addEventListener(
+                          "DOMContentLoaded",
+                          function () {
+                            const uniqueModal =
+                              document.getElementById("uniqueModal");
+                            const createCampaignButton =
+                              document.getElementById("create_campaign");
+                            const closeUniqueModalButton =
+                              document.getElementById("closeUniqueModal");
+
+                            // Show modal when button is clicked
+                            createCampaignButton.addEventListener(
+                              "click",
+                              function () {
+                                uniqueModal.classList.remove("hidden");
+                                uniqueModal
+                                  .querySelector(".unique-modal-content")
+                                  .classList.add("show");
+                              }
+                            );
+
+                            // Close modal when the close button is clicked
+                            closeUniqueModalButton.addEventListener(
+                              "click",
+                              function () {
+                                uniqueModal.classList.add("hidden");
+                              }
+                            );
+
+                            // Close modal when clicking outside the modal content
+                            window.addEventListener("click", function (event) {
+                              if (event.target === uniqueModal) {
+                                uniqueModal.classList.add("hidden");
+                              }
+                            });
+
+                            // Handle form submission
+                            document
+                              .getElementById("uniqueCampaignForm")
+                              .addEventListener("submit", function (e) {
+                                e.preventDefault(); // Prevent default form submission
+
+                                // Gather form data
+                                const formData = new FormData(this); // Use FormData to handle form submission including files
+
+                                // Optionally, log the video file for debugging
+                                const videoFile =
+                                  formData.get("uniqueVideoUpload");
+                                console.log("Video File:", videoFile);
+
+                                // Perform an AJAX request to submit the form data
+                                fetch("/your-api-endpoint", {
+                                  method: "POST",
+                                  body: formData,
+                                })
+                                  .then((response) => response.json())
+                                  .then((data) => {
+                                    console.log("Success:", data);
+                                    // Handle success response
+                                    uniqueModal.classList.add("hidden"); // Close modal after submission
+                                  })
+                                  .catch((error) => {
+                                    console.error("Error:", error);
+                                    // Handle error response
+                                  });
+                              });
+                          }
+                        );
+                      </script>
                     </div>
                   </div>
                 </div>

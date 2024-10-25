@@ -90,6 +90,7 @@
             if (response.ok) {
               messageDiv.textContent = result.message;
               messageDiv.style.color = "green";
+
               window.location.href = "/Login/index.html";
             } else {
               messageDiv.textContent = result.error;
