@@ -1921,16 +1921,11 @@
   <body class="custom-body">
     <script>
       var user;
-      const getUserData = () => {
-        const user_id = localStorage.getItem("user-id");
 
-        const userData = "http://localhost:3000/api/user";
-        fetch(userData, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ user_id: user_id }),
+      const getUserData = () => {
+        fetch("http://localhost:3000/api/user/info", {
+          method: "GET",
+          credentials: "include",
         })
           .then((response) => response.json())
           .then((data) => {
@@ -1941,6 +1936,8 @@
             username.innerText = user.user.name;
           })
           .catch((error) => {
+            alert(data.error);
+
             showMessage("User error: " + error.message, "error");
           });
       };
@@ -3921,6 +3918,7 @@
                           Create campaign
                         </div>
                       </div>
+
                       <!-- Unique Modal Structure -->
                       <div id="uniqueModal" class="unique-modal hidden">
                         <div class="unique-modal-content">
@@ -3950,6 +3948,16 @@
                               class="input-field"
                               required
                             ></textarea>
+
+                            <label for="uniqueLocation">Select Location:</label>
+                            <select
+                              id="uniqueLocation"
+                              name="uniqueLocation"
+                              class="input-field"
+                              required
+                            >
+                              <!-- Options will be dynamically added here -->
+                            </select>
 
                             <label for="uniqueVideoUpload">Upload Video:</label>
                             <input
@@ -4045,9 +4053,65 @@
                         }
                       </style>
                       <script>
+                        function getCookie(name) {
+                          const value = `; ${document.cookie}`;
+                          const parts = value.split(`; ${name}=`);
+                          if (parts.length === 2)
+                            return parts.pop().split(";").shift();
+                        }
                         document.addEventListener(
                           "DOMContentLoaded",
                           function () {
+                            var locations;
+
+                            const getLocationData = async () => {
+                              try {
+                                console.log("HELLO", document.cookie);
+
+                                const response = await fetch(
+                                  "http://localhost:3000/api/admin/location",
+                                  {
+                                    method: "GET",
+                                    credentials: "include",
+                                  }
+                                );
+                                console.log("HELLO 2");
+
+                                const data = await response.json();
+                                alert(data);
+                                console.log("DATA", data);
+                                if (response.ok) {
+                                  locations = data;
+
+                                  alert(locations);
+                                  console.log(locations);
+
+                                  // Populate the location select dropdown with JSON formatted options
+                                  const locationSelect =
+                                    document.getElementById("uniqueLocation");
+                                  locations.forEach((location) => {
+                                    const option =
+                                      document.createElement("option");
+                                    option.value = location.id;
+                                    option.textContent = JSON.stringify(
+                                      location,
+                                      null,
+                                      2
+                                    );
+                                    locationSelect.appendChild(option);
+                                  });
+                                } else {
+                                  toast.error("Failed to fetch locations.");
+                                }
+                              } catch (error) {
+                                toast.error(
+                                  "An error occurred while fetching locations."
+                                );
+                              }
+                            };
+
+                            getLocationData();
+
                             const uniqueModal =
                               document.getElementById("uniqueModal");
                             const createCampaignButton =
@@ -4088,27 +4152,26 @@
                                 e.preventDefault(); // Prevent default form submission
 
                                 // Gather form data
-                                const formData = new FormData(this); // Use FormData to handle form submission including files
-
-                                // Optionally, log the video file for debugging
-                                const videoFile =
-                                  formData.get("uniqueVideoUpload");
-                                console.log("Video File:", videoFile);
+                                const formData = new FormData(this);
+                                formData.append(
+                                  "location",
+                                  locationSelect.options[
+                                    locationSelect.selectedIndex
+                                  ].textContent
+                                );
 
                                 // Perform an AJAX request to submit the form data
-                                fetch("/your-api-endpoint", {
+                                fetch("/api/campaign/upload", {
                                   method: "POST",
                                   body: formData,
                                 })
                                   .then((response) => response.json())
                                   .then((data) => {
                                     console.log("Success:", data);
-                                    // Handle success response
                                     uniqueModal.classList.add("hidden"); // Close modal after submission
                                   })
                                   .catch((error) => {
                                     console.error("Error:", error);
-                                    // Handle error response
                                   });
                               });
                           }

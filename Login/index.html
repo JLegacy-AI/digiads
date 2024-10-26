@@ -1133,9 +1133,8 @@
             } else {
               console.log("User logged in successfully:", data);
               showMessage("Login successful!", "success");
-              localStorage.setItem("user-id", data.user_id);
-              setCookie("user-token", data.user_id, 1, false);
-              window.location.href = "/user/user.html"; // Redirect on success
+
+              // window.location.href = "/user/user.html"; // Redirect on success
             }
           })
           .catch((error) => {
